@@ -1,0 +1,102 @@
+/**
+\file 12.cpp \ 'проект быстрая сортировка'
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+ /** 
+ \fn void Random(int arr[], unsigned len) Заполнение массива случайными значениями
+ @function Random comment
+ */
+void Random(int arr[], unsigned len)
+{
+   srand(time(0));
+   unsigned i;
+   for (i = 0; i < len; ++i)
+   {
+      arr[i] = rand() % (2*len);
+   }
+}
+
+ /**
+ \fn void Print(int arr[], unsigned len) Вывод значений массива на экран
+ */
+void Print(int arr[], unsigned len)
+{
+   unsigned i;
+   for (i = 0; i < len; ++i)
+   {
+      printf("%3d", arr[i]);
+   }
+   printf("\n");
+}
+
+void Swap(int *a, int *b)
+{
+   int buff = *a;
+   *a = *b;
+   *b = buff;
+}
+
+/**
+\fn void QuickSort(int arr[], int first, int last) Быстрая сортировка
+*/
+
+void QuickSort(int arr[], int first, int last)
+{
+   int i = first, j = last, x = arr[(first + last) / 2];
+
+   do
+   {
+      while (arr[i] < x)
+      {
+         i++;
+      }
+      while (arr[j] > x)
+      {
+         j--;
+      }
+
+      if(i <= j)
+      {
+         if (i < j)
+            Swap(&arr[i], &arr[j]);
+         i++;
+         j--;
+      }
+   }
+   while (i <= j);
+
+   if (i < last)
+   {
+      QuickSort(arr, i, last);
+   }
+   if (first < j)
+   {
+      QuickSort(arr, first,j);
+   }
+}
+
+
+int main(int argc, char **argv)
+{
+   int arr[20];
+   
+   unsigned len = sizeof(arr)/sizeof(*arr);
+   
+   Random(arr, len);
+
+   printf("array:\t");
+   Print(arr, len);
+
+   QuickSort(arr, 0, len-1);
+
+   printf("sorted:\t");
+   Print(arr, len);
+   
+   
+   return 0;
+}
